@@ -3,13 +3,14 @@ import React, { useState } from "react";
 const DataContext = React.createContext();
 
 const DataProvider = props => {
-  const [disabled, setDisabled] = useState(false);
+  const [client, setClient] = useState(null);
+  const [disabled, setDisabled] = useState(true);
 
   return (
     <DataContext.Provider
       value={{
-        disabled,
-        setDisabled,
+        client, setClient,
+        disabled, setDisabled,
       }}
     >
       {props.children}
