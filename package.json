@@ -1,0 +1,52 @@
+{
+  "name": "@robinthomas/react-erasure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "now-build": "npm run build && mv build dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robin-thomas/react-erasure.git"
+  },
+  "author": "Robin Thomas <robinthomas2591@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robin-thomas/react-erasure/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,json,md,sol}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@robinthomas/erasure-client": "^1.0.0",
+    "mdbreact": "^4.22.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "^3.2.0"
+  }
+}
