@@ -26,13 +26,18 @@ const Login = (props) => {
       <MDBCardBody>
         <MDBCardTitle>Login</MDBCardTitle>
         {message ? <Alert variant="success">{message}</Alert> : null}
-        <MDBBtn
-          style={{ margin: "0" }}
-          color="dark"
-          onClick={login}
-        >
-          Login
-        </MDBBtn>
+        {
+          ctx.disabled ? (
+            <MDBBtn
+              style={{ margin: "0" }}
+              color="dark"
+              size="sm"
+              onClick={login}
+            >
+              Login
+            </MDBBtn>
+          ) : null
+        }
       </MDBCardBody>
     </MDBCard>
   );

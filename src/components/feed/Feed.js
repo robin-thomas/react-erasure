@@ -33,6 +33,7 @@ const Feed = (props) => {
           style={{ margin: "0" }}
           onClick={createFeed}
           color="dark"
+          size="sm"
         >
           Create
         </MDBBtn>

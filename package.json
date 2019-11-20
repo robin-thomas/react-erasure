@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/core": "^4.6.1",
     "ethers": "^4.0.39",
     "mdbreact": "^4.22.1",
     "react": "^16.12.0",

@@ -1,23 +1,96 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
-import { Alert } from "react-bootstrap";
+import { MDBInputGroup, MDBProgress, MDBBtn, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
+import { Alert, Spinner, Row, Col } from "react-bootstrap";
+
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import { DataContext } from "../../utils/DataProvider";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: "100%"
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2)
+  }
+}));
+
+const Feed = ({ feeds, feed, setFeed, disabled }) => {
+  const classes = useStyles();
+
+  return (
+    <form className={classes.root} autoComplete="off">
+      <FormControl className={classes.formControl}>
+        <InputLabel>Select your feed</InputLabel>
+        <Select
+          value={feed ? feed : ""}
+          disabled={disabled}
+          onChange={e => setFeed(e.target.value)}
+        >
+          {feeds.map((feed, index) => (
+            <MenuItem key={index} value={feed.address}>
+              {feed.address}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </form>
+  );
+}
 
 const Post = (props) => {
   const ctx = useContext(DataContext);
 
+  const [feed, setFeed] = useState(null);
+  const [feeds, setFeeds] = useState([]);
+  const [upload, setUpload] = useState("");
+  const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const createFeed = async () => {
-    try {
-      const feed = await ctx.client.createFeed();
-      setMessage(`Feed created at: ${feed.address}`);
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
+  useEffect(() => {
+    const fn = async () => {
+      const feed = await ctx.client.getFeeds();
+      if (feed !== null) {
+        setFeeds(feed.feeds);
+        setLoading(false);
+      }
+    };
+
+    if (ctx.disabled === false) {
+      fn();
     }
+  }, [ctx.disabled]);
+
+  const fakeUpload = async () => {
+    document.getElementById("uploadPost").click();
+  };
+
+  const uploadPost = (e) => {
+    return new Promise((resolve, reject) => {
+      setUploadProgress(0);
+
+      const file = e.target.files[0];
+      setUpload(file.name);
+      console.log(file);
+
+      const r = new FileReader();
+      r.onload = () => ctx.client.createPost(r.result, feed)
+        .then(({ ipfsHash }) => setMessage(`Created post: ${ipfsHash}`))
+        .catch(reject);
+      r.onprogress = (data) => setUploadProgress(parseInt((data.loaded / data.total) * 100));
+      r.readAsText(file);
+    });
   };
 
   return (
@@ -28,14 +101,38 @@ const Post = (props) => {
           Create a new post
         </MDBCardText>
         {message ? <Alert variant="success">{message}</Alert> : null}
-        <MDBBtn
-          disabled={ctx.disabled}
-          style={{ margin: "0" }}
-          color="dark"
-          onClick={createFeed}
-        >
-          Create
-        </MDBBtn>
+        <Row>
+          {loading === true && ctx.disabled === false ? (
+            <Col md="auto" className="align-self-center pr-0" style={{ marginTop: "12px" }}>
+              <Spinner animation="border" size="sm" role="status" title="Loading feeds" />
+            </Col>
+          ) : null}
+          <Col>
+            <Feed feeds={feeds} feed={feed} setFeed={setFeed} disabled={ctx.disabled || loading} />
+          </Col>
+        </Row>
+        <input
+          id="uploadPost"
+          type="file"
+          hidden
+          onChange={uploadPost}
+        />
+        <MDBInputGroup
+          material
+          prepend={
+            <MDBBtn
+              style={{ margin: "0", marginRight: "10px" }}
+              color="dark"
+              size="sm"
+              disabled={ctx.disabled || loading}
+              onClick={fakeUpload}
+            >
+              Upload
+            </MDBBtn>
+          }
+          value={upload}
+        />
+        <MDBProgress value={uploadProgress} height={1} color="dark" className="my-2" />
       </MDBCardBody>
     </MDBCard>
   );
