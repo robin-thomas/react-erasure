@@ -5,7 +5,7 @@ import { Alert } from "react-bootstrap";
 
 import { DataContext } from "../../utils/DataProvider";
 
-const Feed = (props) => {
+const Post = (props) => {
   const ctx = useContext(DataContext);
 
   const [message, setMessage] = useState("");
@@ -23,16 +23,16 @@ const Feed = (props) => {
   return (
     <MDBCard>
       <MDBCardBody>
-        <MDBCardTitle>Feed</MDBCardTitle>
+        <MDBCardTitle>Post</MDBCardTitle>
         <MDBCardText>
-          Create a new feed
+          Create a new post
         </MDBCardText>
         {message ? <Alert variant="success">{message}</Alert> : null}
         <MDBBtn
           disabled={ctx.disabled}
           style={{ margin: "0" }}
-          onClick={createFeed}
           color="dark"
+          onClick={createFeed}
         >
           Create
         </MDBBtn>
@@ -41,4 +41,4 @@ const Feed = (props) => {
   );
 };
 
-export default Feed;
+export default Post;
