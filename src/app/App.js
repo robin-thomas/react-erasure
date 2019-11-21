@@ -23,13 +23,16 @@ const App = ({ version }) => {
   return (
     <Container>
       <Row><Col>&nbsp;</Col></Row>
-      <Row><Col md="5"><Login/></Col></Row>
+      <Row><Col md="6"><Login/></Col></Row>
       <Row><Col>&nbsp;</Col></Row>
-      <Row><Col md="5"><Feed /></Col></Row>
+      <Row><Col md="6"><Feed /></Col></Row>
       <Row><Col>&nbsp;</Col></Row>
-      <Row><Col md="5"><Post /></Col></Row>
+      <Row>
+        <Col><Post />
+        </Col>
+        <Col><Reveal /></Col>
+      </Row>
       <Row><Col>&nbsp;</Col></Row>
-      <Row><Col md="5"><Reveal /></Col></Row>
     </Container>
   );
 }
