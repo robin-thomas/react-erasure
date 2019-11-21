@@ -1,6 +1,10 @@
+.toast {
+  max-width: 550px !important;
+}
+
 .toast-header-success,
 .toast-header-error {
-  max-width: 500px !important;
+  max-width: 550px !important;
 }
 
 .toast-header-success {
@@ -15,6 +19,7 @@
 
 .toast-header > small {
   font-weight: 300;
+  margin-left: auto !important;
 }
 
 .toast-header-success > strong,
@@ -26,7 +31,7 @@
 
 .toast-header-error > strong,
 .toast-header-success > strong {
-  max-width: 200px;
+  max-width: 350px;
   font-size: 12px;
   font-weight: 400;
 }
@@ -35,10 +40,6 @@
 .toast-header-error > small,
 .toast-header-error button {
   color: #721c24 !important;
-}
-
-.toast-header button {
-  margin-left: auto !important;
 }
 
 .input-group-prepend + input.form-control {

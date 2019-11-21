@@ -14,11 +14,12 @@ const Reveal = (props) => {
   const [feed, setFeed] = useState(null);
   const [post, setPost] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [loadingPosts, setLoadingPosts] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const findPost = async (feedAddress) => {
     setFeed(feedAddress);
-    setLoadingPosts(true);
+    setLoading(true);
 
     try {
       const _posts = await ctx.client.getPosts(feedAddress);
@@ -26,6 +27,11 @@ const Reveal = (props) => {
       if (_posts !== null && _posts !== undefined) {
         setPosts(Object.keys(_posts));
       }
+
+      addAlert(ctx, {
+        message: 'Posts loaded!',
+        cls: "toast-header-success"
+      });
     } catch (err) {
       console.error(err);
       addAlert(ctx, {
@@ -34,8 +40,29 @@ const Reveal = (props) => {
       });
     }
 
-    setLoadingPosts(false);
-  }
+    setLoading(false);
+  };
+
+  const revealPost = async () => {
+    setDisabled(true);
+
+    try {
+      const ipfsHash = await ctx.client.revealPost(feed, post);
+
+      addAlert(ctx, {
+        message: `Revealed post: ${ipfsHash}`,
+        cls: "toast-header-success"
+      });
+    } catch (err) {
+      console.error(err);
+      addAlert(ctx, {
+        message: err.message,
+        cls: "toast-header-error"
+      });
+    }
+
+    setDisabled(false);
+  };
 
   return (
     <MDBCard>
@@ -56,12 +83,12 @@ const Reveal = (props) => {
               items={ctx.feeds}
               item={feed}
               setItem={findPost}
-              disabled={ctx.disabled || ctx.loadingFeeds}
+              disabled={ctx.disabled || ctx.loadingFeeds || disabled}
             />
           </Col>
         </Row>
         <Row>
-          {loadingPosts === true && ctx.disabled === false ? (
+          {loading === true && ctx.disabled === false ? (
             <Col md="auto" className="align-self-center pr-0" style={{ marginTop: "12px" }}>
               <Spinner animation="border" size="sm" role="status" title="Loading posts" />
             </Col>
@@ -72,7 +99,16 @@ const Reveal = (props) => {
               items={posts}
               item={post}
               setItem={setPost}
-              disabled={ctx.disabled || feed === null || loadingPosts}
+              disabled={ctx.disabled || feed === null || loading || disabled}
+            />
+          </Col>
+        </Row>
+        <Row style={{ marginTop: "15px" }}>
+          <Col>
+            <SpinnerButton
+              onClick={revealPost}
+              title="Reveal"
+              disabled={ctx.disabled}
             />
           </Col>
         </Row>
