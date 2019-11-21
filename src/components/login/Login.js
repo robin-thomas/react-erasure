@@ -18,8 +18,6 @@ const Login = (props) => {
       });
       ctx.setDisabled(false);
     } catch (err) {
-      console.error(err);
-
       addAlert(ctx, {
         message: err.message,
         cls: "toast-header-error"
