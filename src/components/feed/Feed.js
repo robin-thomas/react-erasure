@@ -12,13 +12,12 @@ const Feed = (props) => {
   // Load all the feeds.
   useEffect(() => {
     const fn = async () => {
-      try {
-        ctx.setLoadingFeeds(true);
+      ctx.setLoadingFeeds(true);
 
+      try {
         const feed = await ctx.client.getFeeds();
         if (feed !== null) {
           ctx.setFeeds(feed.feeds.map(e => e.address));
-          ctx.setLoadingFeeds(false);
 
           addAlert(ctx, {
             message: "Feeds loaded!",
@@ -31,6 +30,8 @@ const Feed = (props) => {
           cls: "toast-header-error"
         });
       }
+
+      ctx.setLoadingFeeds(false);
     };
 
     if (ctx.disabled === false) {
