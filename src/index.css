@@ -1,3 +1,11 @@
+body {
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow-x: hidden;
+}
+
 .toast {
   max-width: 550px !important;
 }
@@ -42,7 +50,22 @@
   color: #721c24 !important;
 }
 
-.input-group-prepend + input.form-control {
+.upload-post .input-group-prepend + input.form-control {
   padding: 0 !important;
   pointer-events:none;
+}
+
+.md-form {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.stake span.md-addon {
+  padding: 0 !important;
+}
+
+.stake .input-group-prepend + input.form-control {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 10px !important;
 }

@@ -6,7 +6,13 @@ import ErasureClient from "@robinthomas/erasure-client";
 import Feed from "../components/feed";
 import Post from "../components/post";
 import Login from "../components/login";
+import Stake from "../components/stake";
 import Reveal from "../components/reveal";
+import Reward from "../components/reward";
+import Punish from "../components/punish";
+import Release from "../components/release";
+import Retrieve from "../components/retrieve";
+
 import { DataContext } from "../utils/DataProvider";
 
 const App = ({ version }) => {
@@ -33,6 +39,18 @@ const App = ({ version }) => {
         <Col><Reveal /></Col>
       </Row>
       <Row><Col>&nbsp;</Col></Row>
+      <Row><Col md="6"><Stake /></Col></Row>
+      <Row><Col>&nbsp;</Col></Row>
+      <Row>
+        <Col><Punish /></Col>
+        <Col><Reward /></Col>
+      </Row>
+      <Row><Col>&nbsp;</Col></Row>
+      <Row>
+        <Col><Release /></Col>
+        <Col><Retrieve /></Col>
+      </Row>
+      <Row style={{ height: "150px" }}><Col>&nbsp;</Col></Row>
     </Container>
   );
 }

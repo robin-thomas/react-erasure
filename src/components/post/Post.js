@@ -87,6 +87,7 @@ const Post = (props) => {
             />
           }
           value={upload}
+          containerClassName="upload-post"
         />
         <MDBProgress value={uploadProgress} height={1} color="dark" className="my-2" />
       </MDBCardBody>
