@@ -1,0 +1,20 @@
+{
+  "name": "react-erasure",
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": ".*",
+      "dest": "public/index.html"
+    }
+  ],
+  "github": {
+    "enabled": false,
+    "silent": true
+  }
+}
