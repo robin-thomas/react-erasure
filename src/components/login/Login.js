@@ -24,7 +24,18 @@ const Login = (props) => {
       ctx.setDisabled(false);
     } catch (err) {
       console.error(err);
-      alert(err.message);
+
+      ctx.setAlerts(alerts => {
+        let _alerts = Object.assign([], alerts);
+
+        _alerts.push({
+          message: err.message,
+          time: new Date(),
+          cls: "toast-header-error"
+        });
+
+        return _alerts;
+      });
     }
   };
 

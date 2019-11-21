@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
-import { Alert } from "react-bootstrap";
 
 import { DataContext } from "../../utils/DataProvider";
 

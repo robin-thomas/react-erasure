@@ -14,10 +14,9 @@ import { DataContext } from "../../utils/DataProvider";
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   formControl: {
-    margin: theme.spacing(1),
     minWidth: "100%"
   },
   selectEmpty: {
@@ -55,7 +54,6 @@ const Post = (props) => {
   const [feeds, setFeeds] = useState([]);
   const [upload, setUpload] = useState("");
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
@@ -112,8 +110,33 @@ const Post = (props) => {
 
       const r = new FileReader();
       r.onload = () => ctx.client.createPost(r.result, feed)
-        .then(({ ipfsHash }) => setMessage(`Created post: ${ipfsHash}`))
-        .catch(reject);
+        .then(({ ipfsHash }) => {
+          ctx.setAlerts(alerts => {
+            let _alerts = Object.assign([], alerts);
+
+            _alerts.push({
+              message: `Created post: ${ipfsHash}`,
+              time: new Date(),
+              cls: "toast-header-success"
+            });
+
+            return _alerts;
+          });
+        })
+        .catch((err) => {
+          ctx.setAlerts(alerts => {
+            let _alerts = Object.assign([], alerts);
+
+            _alerts.push({
+              message: err.message,
+              time: new Date(),
+              cls: "toast-header-err"
+            });
+
+            return _alerts;
+          });
+        });
+
       r.onprogress = (data) => setUploadProgress(parseInt((data.loaded / data.total) * 100));
       r.readAsText(file);
     });
