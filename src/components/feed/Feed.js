@@ -1,40 +1,63 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
 
+import { addAlert } from "../Alert";
+import SpinnerButton from "../SpinnerButton";
 import { DataContext } from "../../utils/DataProvider";
 
 const Feed = (props) => {
   const ctx = useContext(DataContext);
 
+  // Load all the feeds.
+  useEffect(() => {
+    const fn = async () => {
+      try {
+        ctx.setLoadingFeeds(true);
+
+        const feed = await ctx.client.getFeeds();
+        if (feed !== null) {
+          ctx.setFeeds(feed.feeds.map(e => e.address));
+          ctx.setLoadingFeeds(false);
+
+          addAlert(ctx, {
+            message: "Feeds loaded!",
+            cls: "toast-header-success"
+          });
+        }
+      } catch (err) {
+        addAlert(ctx, {
+          message: err.message,
+          cls: "toast-header-error"
+        });
+      }
+    };
+
+    if (ctx.disabled === false) {
+      fn();
+    }
+  }, [ctx.disabled]);
+
   const createFeed = async () => {
     try {
       const feed = await ctx.client.createFeed();
 
-      ctx.setAlerts(alerts => {
-        let _alerts = Object.assign([], alerts);
+      ctx.setFeeds(feeds => {
+        const _feeds = Object.assign([], feeds);
+        _feeds.push(feed.address);
+        return _feeds;
+      });
 
-        _alerts.push({
-          message: `Feed created at: ${feed.address}`,
-          time: new Date(),
-          cls: "toast-header-success"
-        });
-
-        return _alerts;
+      addAlert(ctx, {
+        message: `Feed created at: ${feed.address}`,
+        cls: "toast-header-success"
       });
     } catch (err) {
       console.error(err);
 
-      ctx.setAlerts(alerts => {
-        let _alerts = Object.assign([], alerts);
-
-        _alerts.push({
-          message: err.message,
-          time: new Date(),
-          cls: "toast-header-error"
-        });
-
-        return _alerts;
+      addAlert(ctx, {
+        message: err.message,
+        cls: "toast-header-error"
       });
     }
   };
@@ -46,15 +69,11 @@ const Feed = (props) => {
         <MDBCardText>
           Create a new feed
         </MDBCardText>
-        <MDBBtn
-          disabled={ctx.disabled}
-          style={{ margin: "0" }}
+        <SpinnerButton
           onClick={createFeed}
-          color="dark"
-          size="sm"
-        >
-          Create
-        </MDBBtn>
+          title="Create"
+          disabled={ctx.disabled}
+        />
       </MDBCardBody>
     </MDBCard>
   );

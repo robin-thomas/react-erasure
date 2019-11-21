@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
 
-import { MDBBtn, MDBCard, MDBCardBody, MDBCardTitle } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCardTitle } from "mdbreact";
 
+import { addAlert } from "../Alert";
+import SpinnerButton from "../SpinnerButton";
 import { DataContext } from "../../utils/DataProvider";
 
 const Login = (props) => {
@@ -10,52 +12,33 @@ const Login = (props) => {
   const login = async () => {
     try {
       await ctx.client.login();
-      ctx.setAlerts(alerts => {
-        let _alerts = Object.assign([], alerts);
-
-        _alerts.push({
-          message: "Logged in successfully",
-          time: new Date(),
-          cls: "toast-header-success"
-        });
-
-        return _alerts;
+      addAlert(ctx, {
+        message: "Logged in successfully",
+        cls: "toast-header-success"
       });
       ctx.setDisabled(false);
     } catch (err) {
       console.error(err);
 
-      ctx.setAlerts(alerts => {
-        let _alerts = Object.assign([], alerts);
-
-        _alerts.push({
-          message: err.message,
-          time: new Date(),
-          cls: "toast-header-error"
-        });
-
-        return _alerts;
+      addAlert(ctx, {
+        message: err.message,
+        cls: "toast-header-error"
       });
     }
   };
 
-  return (
+  return ctx.disabled ? (
     <MDBCard>
       <MDBCardBody>
         <MDBCardTitle>Login</MDBCardTitle>
-        {ctx.disabled ? (
-          <MDBBtn
-            style={{ margin: "0" }}
-            color="dark"
-            size="sm"
+          <SpinnerButton
             onClick={login}
-          >
-            Login
-          </MDBBtn>
-        ) : null}
+            title="Login"
+            disabled={!ctx.disabled}
+          />
       </MDBCardBody>
     </MDBCard>
-  );
+  ) : null;
 };
 
 export default Login;

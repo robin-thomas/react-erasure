@@ -4,6 +4,17 @@ import { Toast } from "react-bootstrap";
 
 import Timer from "./Timer";
 
+const addAlert = (ctx, alert) => {
+  ctx.setAlerts(alerts => {
+    let _alerts = Object.assign([], alerts);
+    _alerts.push({
+      ...alert,
+      time: new Date(),
+    });
+    return _alerts;
+  });
+}
+
 const Alert = ({ message, time, cls }) => {
   const [remove, setRemove] = useState(false);
 
@@ -21,4 +32,5 @@ const Alert = ({ message, time, cls }) => {
   ) : null;
 };
 
+export { addAlert };
 export default Alert;

@@ -6,6 +6,7 @@ import ErasureClient from "@robinthomas/erasure-client";
 import Feed from "../components/feed";
 import Post from "../components/post";
 import Login from "../components/login";
+import Reveal from "../components/reveal";
 import { DataContext } from "../utils/DataProvider";
 
 const App = ({ version }) => {
@@ -27,6 +28,8 @@ const App = ({ version }) => {
       <Row><Col md="5"><Feed /></Col></Row>
       <Row><Col>&nbsp;</Col></Row>
       <Row><Col md="5"><Post /></Col></Row>
+      <Row><Col>&nbsp;</Col></Row>
+      <Row><Col md="5"><Reveal /></Col></Row>
     </Container>
   );
 }

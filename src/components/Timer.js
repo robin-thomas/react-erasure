@@ -8,7 +8,7 @@ const Timer = (props) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const str = formatDistanceToNow(time, { includeSeconds: true });
+      const str = formatDistanceToNow(time);
       setTimeStr(`${str} ago`);
     }, 1000);
 
