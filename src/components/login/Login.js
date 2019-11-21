@@ -1,19 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { MDBBtn, MDBCard, MDBCardBody, MDBCardTitle } from "mdbreact";
-import { Alert } from "react-bootstrap";
 
 import { DataContext } from "../../utils/DataProvider";
 
 const Login = (props) => {
   const ctx = useContext(DataContext);
 
-  const [message, setMessage] = useState("");
-
   const login = async () => {
     try {
       await ctx.client.login();
-      setMessage('Logged in successfully');
+      ctx.setAlerts(alerts => {
+        let _alerts = Object.assign([], alerts);
+
+        _alerts.push({
+          message: "Logged in successfully",
+          time: new Date(),
+          cls: "toast-header-success"
+        });
+
+        return _alerts;
+      });
       ctx.setDisabled(false);
     } catch (err) {
       console.error(err);
@@ -25,19 +32,16 @@ const Login = (props) => {
     <MDBCard>
       <MDBCardBody>
         <MDBCardTitle>Login</MDBCardTitle>
-        {message ? <Alert variant="success">{message}</Alert> : null}
-        {
-          ctx.disabled ? (
-            <MDBBtn
-              style={{ margin: "0" }}
-              color="dark"
-              size="sm"
-              onClick={login}
-            >
-              Login
-            </MDBBtn>
-          ) : null
-        }
+        {ctx.disabled ? (
+          <MDBBtn
+            style={{ margin: "0" }}
+            color="dark"
+            size="sm"
+            onClick={login}
+          >
+            Login
+          </MDBBtn>
+        ) : null}
       </MDBCardBody>
     </MDBCard>
   );

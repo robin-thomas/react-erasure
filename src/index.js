@@ -4,6 +4,7 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 
 import App from "./app";
+import Notifications from "./components/Notifications";
 
 import DataProvider from "./utils/DataProvider";
 
@@ -13,6 +14,7 @@ import 'mdbreact/dist/css/mdb.css';
 
 const ReactErasure = ({ version = "" }) => (
   <DataProvider>
+    <Notifications />
     <App version={version} />
   </DataProvider>
 );

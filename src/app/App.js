@@ -22,7 +22,7 @@ const App = ({ version }) => {
   return (
     <Container>
       <Row><Col>&nbsp;</Col></Row>
-      <Row><Col md="5"><Login /></Col></Row>
+      <Row><Col md="5"><Login/></Col></Row>
       <Row><Col>&nbsp;</Col></Row>
       <Row><Col md="5"><Feed /></Col></Row>
       <Row><Col>&nbsp;</Col></Row>

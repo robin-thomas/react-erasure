@@ -1,0 +1,29 @@
+.toast-header-success {
+  background-color: #d4edda !important;
+  border-color: #c3e6cb !important;
+}
+
+.toast-header-success > strong,
+.toast-header-success > small,
+.toast-header-error button {
+  color: #155724 !important;
+}
+
+.toast-header-error {
+  background-color: #f8d7da !important;
+  border-color: #f8d7da !important;
+}
+
+.toast-header-error > strong,
+.toast-header-error > small,
+.toast-header-error button {
+  color: #721c24 !important;
+}
+
+.toast-header button {
+  margin-left: auto !important;
+}
+
+.toast-header > small {
+  font-weight: 300;
+}

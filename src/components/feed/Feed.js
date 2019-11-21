@@ -8,15 +8,35 @@ import { DataContext } from "../../utils/DataProvider";
 const Feed = (props) => {
   const ctx = useContext(DataContext);
 
-  const [message, setMessage] = useState("");
-
   const createFeed = async () => {
     try {
       const feed = await ctx.client.createFeed();
-      setMessage(`Feed created at: ${feed.address}`);
+
+      ctx.setAlerts(alerts => {
+        let _alerts = Object.assign([], alerts);
+
+        _alerts.push({
+          message: `Feed created at: ${feed.address}`,
+          time: new Date(),
+          cls: "toast-header-success"
+        });
+
+        return _alerts;
+      });
     } catch (err) {
       console.error(err);
-      alert(err.message);
+
+      ctx.setAlerts(alerts => {
+        let _alerts = Object.assign([], alerts);
+
+        _alerts.push({
+          message: err.message,
+          time: new Date(),
+          cls: "toast-header-error"
+        });
+
+        return _alerts;
+      });
     }
   };
 
@@ -27,7 +47,6 @@ const Feed = (props) => {
         <MDBCardText>
           Create a new feed
         </MDBCardText>
-        {message ? <Alert variant="success">{message}</Alert> : null}
         <MDBBtn
           disabled={ctx.disabled}
           style={{ margin: "0" }}

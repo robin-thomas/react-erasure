@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 
 import { MDBInputGroup, MDBProgress, MDBBtn, MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
-import { Alert, Spinner, Row, Col } from "react-bootstrap";
+import { Spinner, Row, Col } from "react-bootstrap";
 
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -60,10 +60,36 @@ const Post = (props) => {
 
   useEffect(() => {
     const fn = async () => {
-      const feed = await ctx.client.getFeeds();
-      if (feed !== null) {
-        setFeeds(feed.feeds);
-        setLoading(false);
+      try {
+        const feed = await ctx.client.getFeeds();
+        if (feed !== null) {
+          setFeeds(feed.feeds);
+          setLoading(false);
+
+          ctx.setAlerts(alerts => {
+            let _alerts = Object.assign([], alerts);
+
+            _alerts.push({
+              message: "Feeds loaded!",
+              time: new Date(),
+              cls: "toast-header-success"
+            });
+
+            return _alerts;
+          });
+        }
+      } catch (err) {
+        ctx.setAlerts(alerts => {
+          let _alerts = Object.assign([], alerts);
+
+          _alerts.push({
+            message: err.message,
+            time: new Date(),
+            cls: "toast-header-error"
+          });
+
+          return _alerts;
+        });
       }
     };
 
@@ -100,7 +126,6 @@ const Post = (props) => {
         <MDBCardText>
           Create a new post
         </MDBCardText>
-        {message ? <Alert variant="success">{message}</Alert> : null}
         <Row>
           {loading === true && ctx.disabled === false ? (
             <Col md="auto" className="align-self-center pr-0" style={{ marginTop: "12px" }}>
