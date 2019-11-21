@@ -106,7 +106,6 @@ const Post = (props) => {
 
       const file = e.target.files[0];
       setUpload(file.name);
-      console.log(file);
 
       const r = new FileReader();
       r.onload = () => ctx.client.createPost(r.result, feed)
@@ -172,7 +171,7 @@ const Post = (props) => {
               style={{ margin: "0", marginRight: "10px" }}
               color="dark"
               size="sm"
-              disabled={ctx.disabled || loading}
+              disabled={ctx.disabled || loading || feed === null}
               onClick={fakeUpload}
             >
               Upload
