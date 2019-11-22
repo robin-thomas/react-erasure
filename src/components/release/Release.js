@@ -1,18 +1,36 @@
 import React, { useContext, useState } from "react";
 
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBInput, MDBInputGroup } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
 import { Spinner, Row, Col } from "react-bootstrap";
 
 import { addAlert } from "../Alert";
 import Chooser from "../Chooser";
+import InputGroup from "../InputGroup";
 import SpinnerButton from "../SpinnerButton";
+
+import Validator from "../../utils/Validator";
 import { DataContext } from "../../utils/DataProvider";
 
 const Release = (props) => {
   const ctx = useContext(DataContext);
 
-  const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const [releaseAmount, setReleaseAmount] = useState("");
+
+  const validator = (text, type) => {
+    if (text === null || text === undefined || text.trim().length === 0) {
+      return {};
+    }
+
+    let validate = false;
+
+    switch(type) {
+      case "+float":
+        validate = Validator.isPositiveFloat(text);
+        break;
+    }
+
+    return { validate };
+  };
 
   return (
     <MDBCard>
@@ -28,7 +46,14 @@ const Release = (props) => {
           setItem={() => true}
           disabled={ctx.disabled}
         />
-        <MDBInput size="sm" label="Amount to release" disabled={ctx.disabled}/>
+        <InputGroup
+          prepend="NMR"
+          label="Release amount"
+          disabled={ctx.disabled}
+          text={releaseAmount}
+          setText={setReleaseAmount}
+          validator={(text) => validator(text, "+float")}
+        />
         <SpinnerButton
           title="Release Stake"
           style={{ marginRight: "10px" }}

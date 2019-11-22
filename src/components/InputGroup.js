@@ -9,7 +9,7 @@ const InputGroup = ({ prepend, label, text, setText, disabled, validator }) => (
     <Col
       md="auto"
       className="align-self-center pr-0"
-      style={{ marginTop: "7px", fontSize: "15px" }}
+      style={{ marginTop: "5px", fontSize: "15px" }}
     >
       {prepend}
     </Col>

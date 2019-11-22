@@ -40,13 +40,13 @@ const Stake = (props) => {
         validate = Validator.isRatio(text);
         break;
 
-      case "float":
-        validate = Validator.isFloat(text);
+      case "+float":
+        validate = Validator.isPositiveFloat(text);
         break;
     }
 
     return { validate };
-  }
+  };
 
   return (
     <MDBCard>
@@ -75,7 +75,7 @@ const Stake = (props) => {
           disabled={ctx.disabled}
           text={stakeAmount}
           setText={setStakeAmount}
-          validator={(text) => validator(text, "float")}
+          validator={(text) => validator(text, "+float")}
         />
         <Input
           label="Griefing ratio"

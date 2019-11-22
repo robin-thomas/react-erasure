@@ -1,18 +1,42 @@
 import React, { useContext, useState } from "react";
 
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBInput, MDBInputGroup } from "mdbreact";
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
 import { Spinner, Row, Col } from "react-bootstrap";
 
 import { addAlert } from "../Alert";
+import Input from "../Input";
 import Chooser from "../Chooser";
+import InputGroup from "../InputGroup";
 import SpinnerButton from "../SpinnerButton";
+
+import Validator from "../../utils/Validator";
 import { DataContext } from "../../utils/DataProvider";
 
 const Punish = (props) => {
   const ctx = useContext(DataContext);
 
-  const [loading, setLoading] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const [message, setMessage] = useState("");
+  const [punishAmount, setPunishAmount] = useState("");
+
+  const validator = (text, type) => {
+    if (text === null || text === undefined || text.trim().length === 0) {
+      return {};
+    }
+
+    let validate = false;
+
+    switch(type) {
+      case "string":
+        validate = true;
+        break;
+
+      case "+float":
+        validate = Validator.isPositiveFloat(text);
+        break;
+    }
+
+    return { validate };
+  };
 
   return (
     <MDBCard>
@@ -28,15 +52,21 @@ const Punish = (props) => {
           setItem={() => true}
           disabled={ctx.disabled}
         />
-        <MDBInputGroup
-          size="sm"
-          material
-          hint="Punish amount"
-          containerClassName="stake"
+        <InputGroup
           prepend="NMR"
+          label="Punish amount"
           disabled={ctx.disabled}
+          text={punishAmount}
+          setText={setPunishAmount}
+          validator={(text) => validator(text, "+float")}
         />
-        <MDBInput size="sm" label="Message" disabled={ctx.disabled}/>
+        <Input
+          label="Message"
+          disabled={ctx.disabled}
+          text={message}
+          setText={setMessage}
+          validator={(text) => validator(text, "string")}
+        />
         <SpinnerButton
           title="Punish"
           style={{ marginRight: "10px" }}
