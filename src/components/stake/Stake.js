@@ -21,7 +21,6 @@ const Stake = (props) => {
   const [countdownLength, setCountdownLength] = useState("");
 
   const [valid, setValid] = useState(false);
-  const [creatingStake, setCreatingStake] = useState(false);
 
   const validator = (text, type) => {
     if (text === null || text === undefined || text.trim().length === 0) {
@@ -63,8 +62,6 @@ const Stake = (props) => {
   };
 
   const stake = async () => {
-    setCreatingStake(true);
-
     try {
       const { griefing } = await ctx.client.stake({
         stakeAmount,
@@ -84,8 +81,6 @@ const Stake = (props) => {
         cls: "toast-header-error"
       });
     }
-
-    setCreatingStake(false);
   };
 
   return (
@@ -127,7 +122,7 @@ const Stake = (props) => {
         <SpinnerButton
           title="Stake"
           style={{ marginRight: "10px" }}
-          disabled={ctx.disabled || creatingStake}
+          disabled={ctx.disabled || !valid}
           onClick={stake}
         />
       </MDBCardBody>
