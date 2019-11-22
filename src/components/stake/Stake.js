@@ -20,6 +20,9 @@ const Stake = (props) => {
   const [counterparty, setCounterparty] = useState("");
   const [countdownLength, setCountdownLength] = useState("");
 
+  const [valid, setValid] = useState(false);
+  const [creatingStake, setCreatingStake] = useState(false);
+
   const validator = (text, type) => {
     if (text === null || text === undefined || text.trim().length === 0) {
       return {};
@@ -45,7 +48,44 @@ const Stake = (props) => {
         break;
     }
 
+    if (
+      Validator.isAddress(counterparty) &&
+      Validator.isRatio(ratio) &&
+      Validator.isPositiveInteger(countdownLength) &&
+      Validator.isPositiveFloat(stakeAmount)
+    ) {
+      setValid(true);
+    } else {
+      setValid(false);
+    }
+
     return { validate };
+  };
+
+  const stake = async () => {
+    setCreatingStake(true);
+
+    try {
+      const { griefing } = await ctx.client.stake({
+        stakeAmount,
+        counterparty,
+        countdownLength,
+        ratio
+      });
+
+      addAlert(ctx, {
+        message: `Created griefing contract: ${griefing.address}`,
+        cls: "toast-header-success"
+      });
+    } catch (err) {
+      console.error(err);
+      addAlert(ctx, {
+        message: err.message,
+        cls: "toast-header-error"
+      });
+    }
+
+    setCreatingStake(false);
   };
 
   return (
@@ -87,7 +127,8 @@ const Stake = (props) => {
         <SpinnerButton
           title="Stake"
           style={{ marginRight: "10px" }}
-          disabled={ctx.disabled}
+          disabled={ctx.disabled || creatingStake}
+          onClick={stake}
         />
       </MDBCardBody>
     </MDBCard>
