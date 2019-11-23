@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.6.1",
-    "@robinthomas/erasure-client": "^1.0.9",
+    "@robinthomas/erasure-client": "^1.0.14",
     "date-fns": "^2.8.0",
     "ethers": "^4.0.39",
     "mdbreact": "^4.22.1",

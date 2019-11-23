@@ -7,7 +7,9 @@ const DataProvider = props => {
   const [alerts, setAlerts] = useState([]);
   const [client, setClient] = useState(null);
   const [disabled, setDisabled] = useState(true);
+  const [griefings, setGriefings] = useState([]);
   const [loadingFeeds, setLoadingFeeds] = useState(false);
+  const [loadingGriefings, setLoadingGriefings] = useState(false);
 
   return (
     <DataContext.Provider
@@ -16,7 +18,9 @@ const DataProvider = props => {
         alerts, setAlerts,
         client, setClient,
         disabled, setDisabled,
+        griefings, setGriefings,
         loadingFeeds, setLoadingFeeds,
+        loadingGriefings, setLoadingGriefings,
       }}
     >
       {props.children}

@@ -23,6 +23,11 @@ const Feed = (props) => {
             message: "Feeds loaded!",
             cls: "toast-header-success"
           });
+        } else {
+          addAlert(ctx, {
+           message: "No feeds to load!",
+           cls: "toast-header-success"
+          });
         }
       } catch (err) {
         addAlert(ctx, {

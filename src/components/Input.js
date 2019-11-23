@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { MDBInput } from "mdbreact";
 import { Row, Col } from "react-bootstrap";
-
-import { DataConsumer } from "../utils/DataProvider";
 
 const Input = ({ text, setText, validator, disabled, label }) => {
   const trigger = (target, text) => {

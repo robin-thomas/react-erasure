@@ -1,11 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText } from "mdbreact";
-import { Spinner, Row, Col } from "react-bootstrap";
 
 import { addAlert } from "../Alert";
 import Input from "../Input";
-import Chooser from "../Chooser";
 import InputGroup from "../InputGroup";
 import SpinnerButton from "../SpinnerButton";
 
@@ -17,46 +15,97 @@ const Stake = (props) => {
 
   const [ratio, setRatio] = useState("");
   const [stakeAmount, setStakeAmount] = useState("");
-  const [counterparty, setCounterparty] = useState("");
+  const [counterParty, setCounterParty] = useState("");
   const [countdownLength, setCountdownLength] = useState("");
 
   const [valid, setValid] = useState(false);
+
+  // Load all the feeds.
+  useEffect(() => {
+    const fn = async () => {
+      ctx.setLoadingGriefings(true);
+
+      try {
+        const griefing = await ctx.client.getGriefings();
+        if (griefing !== null) {
+          ctx.setGriefings(griefing);
+
+          addAlert(ctx, {
+            message: "Griefings loaded!",
+            cls: "toast-header-success"
+          });
+        } else {
+          addAlert(ctx, {
+            message: "No griefings to load!",
+            cls: "toast-header-success"
+          });
+        }
+      } catch (err) {
+        addAlert(ctx, {
+          message: err.message,
+          cls: "toast-header-error"
+        });
+      }
+
+      ctx.setLoadingGriefings(false);
+    };
+
+    if (ctx.disabled === false) {
+      fn();
+    }
+  }, [ctx.disabled]);
 
   const validator = (text, type) => {
     if (text === null || text === undefined || text.trim().length === 0) {
       return {};
     }
 
+    let args;
     let validate = false;
 
     switch(type) {
       case "address":
         validate = Validator.isAddress(text);
+        args = [
+          validate,
+          Validator.isPositiveInteger(countdownLength),
+          Validator.isPositiveFloat(stakeAmount),
+          Validator.isRatio(ratio)
+        ];
         break;
 
       case "+number":
         validate = Validator.isPositiveInteger(text);
+        args = [
+          Validator.isAddress(counterParty),
+          validate,
+          Validator.isPositiveFloat(stakeAmount),
+          Validator.isRatio(ratio)
+        ];
         break;
 
       case "ratio":
         validate = Validator.isRatio(text);
+        args = [
+          Validator.isAddress(counterParty),
+          Validator.isPositiveInteger(countdownLength),
+          Validator.isPositiveFloat(stakeAmount),
+          validate
+        ];
         break;
 
       case "+float":
         validate = Validator.isPositiveFloat(text);
+        args = [
+          Validator.isAddress(counterParty),
+          Validator.isPositiveInteger(countdownLength),
+          validate,
+          Validator.isRatio(ratio)
+        ];
         break;
     }
 
-    if (
-      Validator.isAddress(counterparty) &&
-      Validator.isRatio(ratio) &&
-      Validator.isPositiveInteger(countdownLength) &&
-      Validator.isPositiveFloat(stakeAmount)
-    ) {
-      setValid(true);
-    } else {
-      setValid(false);
-    }
+    setValid(args.reduce((p, c) => p && c, true));
 
     return { validate };
   };
@@ -65,9 +114,15 @@ const Stake = (props) => {
     try {
       const { griefing } = await ctx.client.stake({
         stakeAmount,
-        counterparty,
+        counterParty,
         countdownLength,
         ratio
+      });
+
+      ctx.setGriefings(griefings => {
+        const _griefings = Object.assign([], griefings);
+        _griefings.push(griefing);
+        return _griefings;
       });
 
       addAlert(ctx, {
@@ -91,10 +146,10 @@ const Stake = (props) => {
           Stake using countdown griefing agreement
         </MDBCardText>
         <Input
-          label="Counterparty"
+          label="CounterParty"
           disabled={ctx.disabled}
-          text={counterparty}
-          setText={setCounterparty}
+          text={counterParty}
+          setText={setCounterParty}
           validator={(text) => validator(text, "address")}
         />
         <Input
