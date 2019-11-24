@@ -77,7 +77,7 @@ const Retrieve = (props) => {
           <Col>
             <Chooser
               name="Griefing Address"
-              items={ctx.griefings ? Object.keys(ctx.griefings) : []}
+              items={ctx.griefings ? ctx.griefings : []}
               item={griefing}
               setItem={setGriefingAgreement}
               disabled={ctx.disabled || ctx.loadingGriefings}

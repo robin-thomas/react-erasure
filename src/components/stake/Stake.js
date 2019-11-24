@@ -27,9 +27,9 @@ const Stake = (props) => {
       ctx.setLoadingGriefings(true);
 
       try {
-        const griefing = await ctx.client.getGriefings();
-        if (griefing !== null) {
-          ctx.setGriefings(griefing);
+        const griefings = await ctx.client.getGriefings();
+        if (griefings !== null) {
+          ctx.setGriefings(Object.keys(griefings));
 
           addAlert(ctx, {
             message: "Griefings loaded!",
@@ -124,7 +124,7 @@ const Stake = (props) => {
 
       ctx.setGriefings(griefings => {
         const _griefings = Object.assign([], griefings);
-        _griefings.push(griefing);
+        _griefings.push(griefing.address);
         return _griefings;
       });
 
