@@ -33,7 +33,7 @@ const Chooser = ({ items, item, setItem, name, disabled }) => {
         >
           {items.map((item, index) => (
             <MenuItem key={index} value={item}>
-              {item}
+              {item.length > 48 ? `${item.substr(0, 48)}...` : item}
             </MenuItem>
           ))}
         </Select>
