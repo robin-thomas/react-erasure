@@ -14,14 +14,9 @@ import { DataContext } from "../../utils/DataProvider";
 const Release = (props) => {
   const ctx = useContext(DataContext);
 
-  const [releaseAmount, setReleaseAmount] = useState("");
-  const [griefing, setGriefing] = useState(null);
-
   const [valid, setValid] = useState(false);
-
-  const setGriefingAgreement = (griefingAddress) => {
-    setGriefing(ctx.griefing[griefingAddress]);
-  }
+  const [griefing, setGriefing] = useState(null);
+  const [releaseAmount, setReleaseAmount] = useState("");
 
   const validator = (text, type) => {
     if (text === null || text === undefined || text.trim().length === 0) {
@@ -43,13 +38,13 @@ const Release = (props) => {
 
   const release = async () => {
     try {
-      const txReceipt = await ctx.client.punish({
-        releaseAmount,
-        griefingAddress: griefing.address,
+      const txReceipt = await ctx.client.releaseStake({
+        amountToRelease: releaseAmount,
+        griefingAddress: griefing,
       });
 
       addAlert(ctx, {
-        message: `Released with transaction: ${txReceipt.address}`,
+        message: `Released ${releaseAmount} NMR to ${griefing}`,
         cls: "toast-header-success"
       });
     } catch (err) {
@@ -79,7 +74,7 @@ const Release = (props) => {
               name="Griefing Address"
               items={ctx.griefings ? ctx.griefings : []}
               item={griefing}
-              setItem={setGriefingAgreement}
+              setItem={setGriefing}
               disabled={ctx.disabled || ctx.loadingGriefings}
             />
           </Col>

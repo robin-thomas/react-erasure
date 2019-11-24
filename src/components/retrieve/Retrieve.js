@@ -14,14 +14,9 @@ import { DataContext } from "../../utils/DataProvider";
 const Retrieve = (props) => {
   const ctx = useContext(DataContext);
 
+  const [valid, setValid] = useState(false);
   const [recipient, setRecipient] = useState("");
   const [griefing, setGriefing] = useState(null);
-
-  const [valid, setValid] = useState(false);
-
-  const setGriefingAgreement = (griefingAddress) => {
-    setGriefing(ctx.griefing[griefingAddress]);
-  }
 
   const validator = (text, type) => {
     if (text === null || text === undefined || text.trim().length === 0) {
@@ -43,13 +38,13 @@ const Retrieve = (props) => {
 
   const retrieve = async () => {
     try {
-      const txReceipt = await ctx.client.punish({
+      const txReceipt = await ctx.client.retrieveStake({
         recipient,
-        griefingAddress: griefing.address,
+        griefingAddress: griefing,
       });
 
       addAlert(ctx, {
-        message: `Retrieved stake with transaction: ${txReceipt.address}`,
+        message: `Retrieved stake from ${griefing}`,
         cls: "toast-header-success"
       });
     } catch (err) {
@@ -79,7 +74,7 @@ const Retrieve = (props) => {
               name="Griefing Address"
               items={ctx.griefings ? ctx.griefings : []}
               item={griefing}
-              setItem={setGriefingAgreement}
+              setItem={setGriefing}
               disabled={ctx.disabled || ctx.loadingGriefings}
             />
           </Col>

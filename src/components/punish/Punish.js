@@ -15,15 +15,10 @@ import { DataContext } from "../../utils/DataProvider";
 const Punish = (props) => {
   const ctx = useContext(DataContext);
 
+  const [valid, setValid] = useState(false);
   const [message, setMessage] = useState("");
   const [griefing, setGriefing] = useState(null);
   const [punishAmount, setPunishAmount] = useState("");
-
-  const [valid, setValid] = useState(false);
-
-  const setGriefingAgreement = (griefingAddress) => {
-    setGriefing(ctx.griefing[griefingAddress]);
-  }
 
   const validator = (text, type) => {
     if (text === null || text === undefined || text.trim().length === 0) {
@@ -60,12 +55,12 @@ const Punish = (props) => {
     try {
       const txReceipt = await ctx.client.punish({
         punishAmount,
-        griefingAddress: griefing.address,
+        griefingAddress: griefing,
         message
       });
 
       addAlert(ctx, {
-        message: `Punished with transaction: ${txReceipt.address}`,
+        message: `Punished with ${punishAmount} NMR`,
         cls: "toast-header-success"
       });
     } catch (err) {
@@ -95,7 +90,7 @@ const Punish = (props) => {
               name="Griefing Address"
               items={ctx.griefings ? ctx.griefings : []}
               item={griefing}
-              setItem={setGriefingAgreement}
+              setItem={setGriefing}
               disabled={ctx.disabled || ctx.loadingGriefings}
             />
           </Col>
