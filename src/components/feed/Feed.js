@@ -15,9 +15,9 @@ const Feed = (props) => {
       ctx.setLoadingFeeds(true);
 
       try {
-        const feed = await ctx.client.getFeeds();
-        if (feed !== null) {
-          ctx.setFeeds(feed.feeds.map(e => e.address));
+        const feeds = await ctx.client.getFeeds();
+        if (feeds !== null) {
+          ctx.setFeeds(Object.keys(feeds));
 
           addAlert(ctx, {
             message: "Feeds loaded!",
@@ -50,12 +50,12 @@ const Feed = (props) => {
 
       ctx.setFeeds(feeds => {
         const _feeds = Object.assign([], feeds);
-        _feeds.push(feed.address);
+        _feeds.push(feed.id);
         return _feeds;
       });
 
       addAlert(ctx, {
-        message: `Feed created at: ${feed.address}`,
+        message: `Feed created at: ${feed.id}`,
         cls: "toast-header-success"
       });
     } catch (err) {

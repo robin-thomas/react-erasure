@@ -16,23 +16,47 @@ const Post = (props) => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const fakeUpload = async () => {
-    document.getElementById("uploadPost").click();
+    return new Promise((resolve, reject) => {
+      const ele = document.getElementById("uploadPost");
+
+      document.body.onfocus = () => {
+        if (ele.value.length === 0) {
+          resolve(null);
+          document.body.onfocus = null;
+        }
+      };
+
+      ele.onchange = async (e) => {
+        ele.onchange = null;
+
+        try {
+          const file = e.target.files[0];
+          await uploadPost(file);
+        } catch (err) {
+          console.log(err);
+        }
+
+        resolve(null);
+      }
+      document.getElementById("uploadPost").click();
+    });
   };
 
-  const uploadPost = (e) => {
+  const uploadPost = (file) => {
     return new Promise((resolve, reject) => {
       setUploadProgress(0);
 
-      const file = e.target.files[0];
       setUpload(file.name);
 
       const r = new FileReader();
       r.onload = () => ctx.client.createPost(r.result, feed)
-        .then(({ ipfsHash }) => {
+        .then((proofHash) => {
           addAlert(ctx, {
-            message: `Created post: ${ipfsHash}`,
+            message: `Created post: ${proofHash}`,
             cls: "toast-header-success"
           });
+
+          resolve(null);
         })
         .catch((err) => {
           console.error(err);
@@ -40,6 +64,8 @@ const Post = (props) => {
             message: err.message,
             cls: "toast-header-error"
           });
+
+          reject(err);
         });
 
       r.onprogress = (data) => setUploadProgress(parseInt((data.loaded / data.total) * 100));
@@ -74,7 +100,6 @@ const Post = (props) => {
           id="uploadPost"
           type="file"
           hidden
-          onChange={uploadPost}
         />
         <MDBInputGroup
           material

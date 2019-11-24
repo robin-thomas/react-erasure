@@ -22,10 +22,9 @@ const Reveal = (props) => {
     setLoading(true);
 
     try {
-      const _posts = await ctx.client.getPosts(feedAddress);
-
-      if (_posts !== null && _posts !== undefined) {
-        setPosts(Object.keys(_posts));
+      const _feeds = await ctx.client.getFeeds();
+      if (_feeds !== null && _feeds !== undefined) {
+        setPosts(Object.keys(_feeds[feedAddress].posts));
       }
 
       addAlert(ctx, {

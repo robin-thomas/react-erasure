@@ -13,14 +13,7 @@ const Notifications = () => {
   }, [ctx.alerts]);
 
   return (
-    <div
-      id="notifications"
-      style={{
-        position: "fixed",
-        padding: "10px",
-        width: "100vw",
-        zIndex: "9999",
-      }}>
+    <div className="erasure-notifications">
       {alerts.map((alert, index) => <Alert key={index} {...alert}/>)}
     </div>
   );

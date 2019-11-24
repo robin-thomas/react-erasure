@@ -14,7 +14,7 @@ const SpinnerButton = ({ onClick, disabled = false, title, style = {} }) => {
 
   return (
     <MDBBtn
-      style={{ margin: "0", ...style }}
+      style={{ margin: "0", fontSize: "13px", ...style }}
       color="dark"
       size="sm"
       disabled={disabled || loading}

@@ -11,6 +11,14 @@ body {
   height: 100vh !important;
 }
 
+.erasure-notifications {
+  position: fixed;
+  padding: 10px;
+  width: 550px;
+  z-index: 9999;
+  left: calc(50vw - 225px);
+}
+
 .toast {
   max-width: 550px !important;
 }
