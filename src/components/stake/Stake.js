@@ -19,6 +19,7 @@ const Stake = (props) => {
   const [countdownLength, setCountdownLength] = useState("");
 
   const [valid, setValid] = useState(false);
+  const [creatingStake, setCreatingStake] = useState(false);
 
   // Load all the feeds.
   useEffect(() => {
@@ -111,6 +112,8 @@ const Stake = (props) => {
   };
 
   const stake = async () => {
+    setCreatingStake(true);
+
     try {
       const { griefing } = await ctx.client.stake({
         stakeAmount,
@@ -136,6 +139,8 @@ const Stake = (props) => {
         cls: "toast-header-error"
       });
     }
+
+    setCreatingStake(false);
   };
 
   return (
@@ -147,14 +152,14 @@ const Stake = (props) => {
         </MDBCardText>
         <Input
           label="CounterParty"
-          disabled={ctx.disabled}
+          disabled={ctx.disabled || creatingStake}
           text={counterParty}
           setText={setCounterParty}
           validator={(text) => validator(text, "address")}
         />
         <Input
           label="Agreement length (in seconds)"
-          disabled={ctx.disabled}
+          disabled={ctx.disabled || creatingStake}
           text={countdownLength}
           setText={setCountdownLength}
           validator={(text) => validator(text, "+number")}
@@ -162,14 +167,14 @@ const Stake = (props) => {
         <InputGroup
           prepend="NMR"
           label="Stake amount"
-          disabled={ctx.disabled}
+          disabled={ctx.disabled || creatingStake}
           text={stakeAmount}
           setText={setStakeAmount}
           validator={(text) => validator(text, "+float")}
         />
         <Input
           label="Griefing ratio"
-          disabled={ctx.disabled}
+          disabled={ctx.disabled || creatingStake}
           text={ratio}
           setText={setRatio}
           validator={(text) => validator(text, "ratio")}

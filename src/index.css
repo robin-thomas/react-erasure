@@ -3,7 +3,12 @@ body {
   margin: 0;
   padding: 0;
   border: 0;
-  overflow-x: hidden;
+  overflow: hidden;
+  background: rgb(246, 248, 249) !important;
+}
+
+.react-erasure-scrollarea {
+  height: 100vh !important;
 }
 
 .toast {

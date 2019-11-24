@@ -16,7 +16,7 @@ const Notifications = () => {
     <div
       id="notifications"
       style={{
-        position: "absolute",
+        position: "fixed",
         padding: "10px",
         width: "100vw",
         zIndex: "9999",
