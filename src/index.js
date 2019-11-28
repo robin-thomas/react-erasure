@@ -12,10 +12,10 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 
-const ReactErasure = ({ version = "" }) => (
+const ReactErasure = ({ version = "", griefingType = "countdown" }) => (
   <DataProvider>
     <Notifications />
-    <App version={version} />
+    <App version={version} griefingType={griefingType}/>
   </DataProvider>
 );
 

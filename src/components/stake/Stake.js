@@ -118,6 +118,7 @@ const Stake = (props) => {
       const { griefing } = await ctx.client.stake({
         stakeAmount,
         counterParty,
+        griefingType: ctx.griefingType,
         countdownLength,
         ratio
       });

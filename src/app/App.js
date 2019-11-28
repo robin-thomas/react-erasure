@@ -16,7 +16,7 @@ import Retrieve from "../components/retrieve";
 
 import { DataContext } from "../utils/DataProvider";
 
-const App = ({ version }) => {
+const App = ({ version, griefingType }) => {
   const ctx = useContext(DataContext);
 
   useEffect(() => {
