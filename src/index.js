@@ -1,3 +1,5 @@
+import "./index.css";
+
 export { default as Feed } from "./components/feed";
 export { default as Post } from "./components/post";
 export { default as Login } from "./components/login";

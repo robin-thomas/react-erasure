@@ -1,5 +1,9 @@
 const path = require("path");
 
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+
 module.exports = {
   entry: ["@babel/polyfill", "./src/index.js"],
   output: {
@@ -20,28 +24,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg)$/,
-        loader: "url-loader",
-        options: {
-          outputPath: "assets/",
-          name: "[name].[ext]"
-        }
-      },
-      {
-        test: /\.(woff(2)?)(\?[a-z0-9=.]+)?$/,
-        loader: "url-loader",
-        options: {
-          outputPath: "fonts",
-          name: "[name].[ext]"
-        }
-      },
-      {
-        // Ignore fonts
-        test: /\.(eot|ttf)(\?.*$|$)/,
-        use: ["raw-loader", "ignore-loader"]
+        use: [
+          MiniCssExtractPlugin.loader, // instead of style-loader
+          "css-loader"
+        ]
       }
     ]
   },
@@ -55,5 +41,13 @@ module.exports = {
     "@robinthomas/erasure-client": {
       commonjs2: "@robinthomas/erasure-client"
     }
-  }
+  },
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    }),
+  ],
 };

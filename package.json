@@ -1,48 +1,29 @@
 {
   "name": "@robinthomas/react-erasure",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "React components for Erasure",
   "main": "build/index.js",
+  "author": "Robin Thomas <robinthomas2591@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "build": "webpack --mode=production",
-    "start": "webpack --watch"
+    "start": "webpack --watch",
+    "predeploy": "rm -rf dist",
+    "deploy": "npm run build && mv build dist",
+    "postdeploy": "npm publish --access public"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/robin-thomas/react-erasure.git"
   },
-  "author": "Robin Thomas <robinthomas2591@gmail.com>",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/robin-thomas/react-erasure/issues"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,json,md,sol}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "peerDependencies": {
+    "@robinthomas/erasure-client": "^1.0.23",
+    "mdbreact": "^4.22.1",
     "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "@robinthomas/erasure-client": "^1.0.23"
+    "react-dom": "^16.12.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
@@ -65,17 +46,37 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.3.0",
-    "ethers": "^4.0.39",
-    "ignore-loader": "^0.1.2",
     "mdbreact": "^4.22.1",
-    "raw-loader": "^4.0.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.15",
     "react-dom": "^16.12.0",
-    "style-loader": "^1.0.1",
-    "url-loader": "^3.0.0",
     "webpack": "4.41.0",
     "webpack-cli": "^3.3.10"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,json,md,sol}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
