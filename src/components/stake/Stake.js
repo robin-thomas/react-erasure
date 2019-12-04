@@ -196,7 +196,7 @@ const Stake = (props) => {
               name="Feed"
               items={ctx.feeds}
               item={feed}
-              setItem={setFeed}
+              setItem={findPost}
               disabled={ctx.disabled || ctx.loadingFeeds || creatingStake}
             />
           </Col>

@@ -4,16 +4,14 @@
   "private": true,
   "main": "src/index.js",
   "dependencies": {
-    "@robinthomas/erasure-client": "^1.0.23",
+    "@robinthomas/erasure-client": "^1.0.28",
+    "@robinthomas/react-erasure": "^1.0.4",
     "mdbreact": "^4.23.0",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
     "react-scripts": "^3.2.0",
     "react-scrollbar": "^0.5.6"
-  },
-  "devDependencies": {
-    "@robinthomas/react-erasure": "^1.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

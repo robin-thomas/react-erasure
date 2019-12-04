@@ -1,6 +1,6 @@
 {
   "name": "@robinthomas/react-erasure",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React components for Erasure",
   "main": "build/index.js",
   "author": "Robin Thomas <robinthomas2591@gmail.com>",
@@ -20,7 +20,7 @@
     "url": "https://github.com/robin-thomas/react-erasure/issues"
   },
   "peerDependencies": {
-    "@robinthomas/erasure-client": "^1.0.26",
+    "@robinthomas/erasure-client": "^1.0.28",
     "mdbreact": "^4.22.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
@@ -34,7 +34,7 @@
     "@babel/preset-react": "^7.7.4",
     "@babel/runtime": "^7.7.4",
     "@material-ui/core": "^4.6.1",
-    "@robinthomas/erasure-client": "^1.0.26",
+    "@robinthomas/erasure-client": "^1.0.28",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
