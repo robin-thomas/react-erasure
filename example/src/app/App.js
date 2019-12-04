@@ -16,7 +16,7 @@ import {
 } from "@robinthomas/react-erasure";
 
 const EmptyRow = ({ height }) => (
-  <Row style={{ height: `${height ? height: 50}px` }}>
+  <Row style={{ height: `${height ? height: 25}px` }}>
     <Col>&nbsp;</Col>
   </Row>
 );
