@@ -1,6 +1,6 @@
 {
   "name": "@robinthomas/react-erasure",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "React components for Erasure",
   "main": "build/index.js",
   "author": "Robin Thomas <robinthomas2591@gmail.com>",
